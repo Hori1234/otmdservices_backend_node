@@ -1,0 +1,17 @@
+FROM centos:latest as build
+RUN mkdir /opt/tomcat/
+WORKDIR /opt/tomcat
+RUN yum clean all && yum update -y
+RUN curl -O https://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.46/bin/apache-tomcat-9.0.46.tar.gz
+RUN file apache-tomcat-9.0.46.tar.gz
+RUN gzip -d apache-tomcat-9.0.46.tar.gz
+RUN tar -xvf apache-tomcat-9.0.46.tar.gz
+RUN mv apache-tomcat-9.0.46/* /opt/tomcat/
+RUN yum -y install java 
+RUN yum clean all
+RUN java -version
+
+
+EXPOSE 8080
+
+CMD ["/opt/tomcat/bin/catalina.sh", "run"]
